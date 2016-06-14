@@ -17,8 +17,11 @@ Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'nvie/vim-flake8'
+Plugin 'tell-k/vim-autopep8'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
+Plugin 'lervag/vimtex'
+Plugin 'wesQ3/vim-windowswap'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -26,6 +29,9 @@ filetype plugin on
 
 let python_highlight_all=1
 syntax on
+
+" Syntax for Python3
+let g:syntastic_python_python_exec = 'python3'
 
 let g:SimpylFold_docstring_preview=1
 
@@ -38,6 +44,9 @@ map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " NERDTree stuff
 map <C-n> :NERDTreeToggle<CR>
 
+" Autopep8 stuff
+let g:autopep8_max_line_length=79
+
 "python with virtualenv support
 py << EOF
 import os
@@ -48,14 +57,12 @@ if 'VIRTUAL_ENV' in os.environ:
     execfile(activate_this, dict(__file__=activate_this))
 EOF
 
+let mapleader=","
 inoremap <S-TAB> <C-D>
 nmap <C-o> O<Esc>
 "tab navigation
 nmap <C-a> :vsplit<CR>  " Open a new tab
-nmap <C-l> :split<CR>
-
-nmap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR> " Move current tab to the left
-nmap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>    " Move current tab to the right
+nmap <C-m> :split<CR>
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -65,6 +72,9 @@ nnoremap <C-H> <C-W><C-H>
 
 " Enable folding with spacebar
 nnoremap <space> za
+
+" Enable running directly from vim
+nnoremap <silent> <F5> :!clear;python %<CR>
 
 set encoding=utf-8
 
@@ -101,3 +111,6 @@ set background=dark
 
 let asmsyntax='armasm' 
 let filetype_inc='armasm'
+
+set ssop-=options    " do not store global and local values in a session
+set ssop-=folds      " do not store folds
