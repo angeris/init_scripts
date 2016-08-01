@@ -1,5 +1,10 @@
 set number " Set line numbers to be visible
 
+map <Esc>[A <Up>
+map <Esc>[B <Down>
+map <Esc>[C <Right>
+map <Esc>[D <Left>
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -31,14 +36,13 @@ let python_highlight_all=1
 syntax on
 
 " Syntax for Python3
-let g:syntastic_python_python_exec = 'python3'
+" let g:syntastic_python_python_exec = 'python3'
 
 let g:SimpylFold_docstring_preview=1
 
 set tabstop=4 shiftwidth=4 expandtab
 
 " Autocomplete stuff
-let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " NERDTree stuff
@@ -73,8 +77,8 @@ nnoremap <C-H> <C-W><C-H>
 " Enable folding with spacebar
 nnoremap <space> za
 
-" Enable running directly from vim
-nnoremap <silent> <F5> :!clear;python %<CR>
+ "Enable running directly from vim
+"nnoremap <silent> <F5> :!clear;python %<CR>
 
 set encoding=utf-8
 
@@ -114,3 +118,6 @@ let filetype_inc='armasm'
 
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
+
+colorscheme moriarty
+set t_ut=
