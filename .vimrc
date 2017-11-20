@@ -1,9 +1,6 @@
-set number " Set line numbers to be visible
+set backspace=2
 
-map <Esc>[A <Up>
-map <Esc>[B <Down>
-map <Esc>[C <Right>
-map <Esc>[D <Left>
+set number " Set line numbers to be visible
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -21,12 +18,13 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
-Plugin 'nvie/vim-flake8'
+"Plugin 'nvie/vim-flake8'
 Plugin 'tell-k/vim-autopep8'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lervag/vimtex'
 Plugin 'wesQ3/vim-windowswap'
+Plugin 'tomlion/vim-solidity'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -36,14 +34,17 @@ let python_highlight_all=1
 syntax on
 
 " Syntax for Python3
-" let g:syntastic_python_python_exec = 'python3'
+let g:syntastic_python_python_exec = 'python'
+let g:ycm_python_binary_path = 'python'
 
 let g:SimpylFold_docstring_preview=1
 
 set tabstop=4 shiftwidth=4 expandtab
 
 " Autocomplete stuff
+let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+map <C-]> :YcmCompleter GoToDeclaration<CR>
 
 " NERDTree stuff
 map <C-n> :NERDTreeToggle<CR>
@@ -77,8 +78,8 @@ nnoremap <C-H> <C-W><C-H>
 " Enable folding with spacebar
 nnoremap <space> za
 
- "Enable running directly from vim
-"nnoremap <silent> <F5> :!clear;python %<CR>
+" Enable running directly from vim
+nnoremap <silent> <F5> :!clear;python %<CR>
 
 set encoding=utf-8
 
@@ -118,6 +119,3 @@ let filetype_inc='armasm'
 
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
-
-colorscheme moriarty
-set t_ut=
