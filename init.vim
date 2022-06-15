@@ -21,14 +21,16 @@ set cursorline
 call plug#begin()
     Plug 'preservim/nerdtree'
     Plug 'neovim/nvim-lspconfig'
-    Plug 'JuliaEditorSupport/julia-vim'
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'fannheyward/coc-julia'
     Plug 'lervag/vimtex'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'godlygeek/tabular'
     Plug 'preservim/vim-markdown'
+
+    Plug 'JuliaEditorSupport/julia-vim'
+    Plug 'ziglang/zig.vim'
+
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 " -- Plugin settings
@@ -75,3 +77,25 @@ inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
+
+" Use enter for completion
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use K to show documentation for a symbol
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Automatically highlight all symbols on cursor over
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Color scheme
+colorscheme evening
+highlight Pmenu ctermbg=gray guibg=blue
