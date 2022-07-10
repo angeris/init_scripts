@@ -16,24 +16,24 @@ syntax on
 
 set mouse=a
 
-set cursorline
-
 call plug#begin()
     Plug 'preservim/nerdtree'
     Plug 'neovim/nvim-lspconfig'
+    Plug 'JuliaEditorSupport/julia-vim'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'fannheyward/coc-julia'
     Plug 'lervag/vimtex'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'godlygeek/tabular'
     Plug 'preservim/vim-markdown'
-
-    Plug 'JuliaEditorSupport/julia-vim'
+    Plug 'morhetz/gruvbox'
     Plug 'ziglang/zig.vim'
-
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 " -- Plugin settings
+colorscheme gruvbox
+
 " Vimtex
 let g:vimtex_view_method='skim'
 let g:tex_flavor='latex'
@@ -63,7 +63,7 @@ function NerdToggle()
 endfunction
 
 nnoremap <C-n> :call NerdToggle()<CR>
-nnoremap <C-f> :Files<CR>
+nnoremap <C-f> :GFiles --cached --others --exclude-standard<CR>
 nnoremap <C-b> :Buffers<CR>
 nnoremap <C-p> :Rg<CR>
 
@@ -78,24 +78,18 @@ inoremap <silent><expr> <Tab>
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 
-" Use enter for completion
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Coc Keyboard shortcuts
+nnoremap <silent> <Leader>j <Plug>(coc-diagnostic-next)
+nnoremap <silent> <Leader>k <Plug>(coc-diagnostic-prev)
+nnoremap <silent> <Leader>d :CocDiagnostics<CR>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" Use K to show documentation for a symbol
-nnoremap <silent> K :call ShowDocumentation()<CR>
-
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
     call CocActionAsync('doHover')
   else
-    call feedkeys('K', 'in')
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
-
-" Automatically highlight all symbols on cursor over
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Color scheme
-colorscheme evening
-highlight Pmenu ctermbg=gray guibg=blue

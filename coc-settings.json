@@ -1,0 +1,4 @@
+{
+    "zig.path": "~/Documents/code/zls/zig-out/bin/zls",
+    "coc.preferences.formatOnSaveFiletypes": [ "rust" ]
+}
