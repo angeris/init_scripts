@@ -10,6 +10,7 @@ set backspace=2
 
 set number
 set wildmode=longest,list
+set spell spelllang=en_us
 
 filetype plugin indent on
 syntax on
@@ -31,7 +32,8 @@ call plug#begin()
     Plug 'godlygeek/tabular'
     Plug 'preservim/vim-markdown'
     Plug 'ziglang/zig.vim'
-    Plug 'ellisonleao/gruvbox.nvim'
+    Plug 'nvim-lualine/lualine.nvim'
+    Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
 " -- Plugin settings
@@ -70,65 +72,12 @@ nnoremap <C-f> :Files<CR>
 nnoremap <C-b> :Buffers<CR>
 nnoremap <C-p> :Rg<CR>
 
-" Enable Julia LSP
-lua << EOF
-EOF
+" Julia highlighting
 
 set completeopt=menu,menuone,noselect
 
 lua <<EOF
-  -- Set up nvim-cmp.
-  local cmp = require'cmp'
-
-  cmp.setup({
-    snippet = {
-    },
-    window = {
-      -- completion = cmp.config.window.bordered(),
-      -- documentation = cmp.config.window.bordered(),
-    },
-    mapping = cmp.mapping.preset.insert({
-        ['<Tab>'] = cmp.mapping(function(fallback) 
-            if cmp.visible() then
-                cmp.select_next_item()
-            else
-                fallback()
-            end
-        end),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-        end),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    }),
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'nvim_lsp_signature_help' },
-      { name = 'buffer', keyword_length = 3 },
-    })
-  })
-
-    -- Set up lspconfig.
-    local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-    -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-    require('lspconfig')['julials'].setup{}
-    require('lspconfig')['rust_analyzer'].setup{}
-    require('lspconfig')['zls'].setup{}
-
-     -- Set up nvim-treesitter
-     require('nvim-treesitter.configs').setup {
-         ensure_installed = { "julia", "rust", "comment", "zig", "bibtex", "latex" },
-     }
-
-    -- Set up colorscheme
-    require('gruvbox').setup {
-        italic=false,
-    }
-    vim.cmd('colorscheme gruvbox')
+    require'config'.setup()
 EOF
 
+hi link juliaFunctionCall Identifier
