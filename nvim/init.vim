@@ -34,6 +34,7 @@ call plug#begin()
     Plug 'ziglang/zig.vim'
     Plug 'nvim-lualine/lualine.nvim'
     Plug 'sainnhe/gruvbox-material'
+    Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 call plug#end()
 
 " -- Plugin settings
@@ -80,4 +81,3 @@ lua <<EOF
     require'config'.setup()
 EOF
 
-hi link juliaFunctionCall Identifier
