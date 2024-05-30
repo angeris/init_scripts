@@ -1,67 +1,52 @@
 M = {}
 
 function M.setup()
-    -- Set up nvim-cmp.
-    local cmp = require'cmp'
-
-    cmp.setup({
-        snippet = {
-            expand = function(args)
-            end,
-        },
-        window = {
-        -- completion = cmp.config.window.bordered(),
-        -- documentation = cmp.config.window.bordered(),
-        },
-        mapping = cmp.mapping.preset.insert({
-            ['<Tab>'] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_next_item()
-                else
-                    fallback()
-                end
-            end),
-            ["<S-Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_prev_item()
-                else
-                    fallback()
-                end
-            end),
-            ['<C-Space>'] = cmp.mapping.complete(),
-            ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        }),
-        sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'nvim_lsp_signature_help' },
-            { name = 'buffer', keyword_length = 3 },
-        })
-    })
-
     -- Set up lspconfig.
-    require('lspconfig')['julials'].setup{}
-    require('lspconfig')['rust_analyzer'].setup{}
-    require('lspconfig')['zls'].setup{}
-    require('lspconfig')['sumneko_lua'].setup{}
+    local lsp = require('lspconfig')
+    lsp['julials'].setup{}
+    lsp['rust_analyzer'].setup{}
+    lsp['zls'].setup{}
+    lsp['lua_ls'].setup{}
+
+    -- Set up coq
+    vim.g.coq_settings = {
+        auto_start = 'shut-up'
+    }
 
      -- Set up nvim-treesitter
-     require('nvim-treesitter.configs').setup {
-         ensure_installed = { "julia", "rust", "comment", "zig", "bibtex", "latex", "lua" },
-         auto_install = true,
-     }
+     -- require('nvim-treesitter.configs').setup {
+     --     ensure_installed = { "julia", "rust", "comment", "zig", "bibtex", "latex", "lua" },
+     --     auto_install = true,
+     -- }
 
     -- Set up colorscheme
-    vim.cmd('colorscheme gruvbox-material')
+    -- vim.cmd('colorscheme gruvbox-material')
+
+    require("rose-pine").setup({
+        variant = "main", -- auto, main, moon, or dawn
+        styles = {
+            transparency = true,
+            italic = false,
+        },
+    })
+
+    vim.cmd("colorscheme rose-pine")
 
     -- Set up Julia stuff
     vim.cmd('hi link juliaFunctionCall Identifier')
     vim.cmd('autocmd FileType julia nmap <buffer> ? <Plug>(JuliaDocPrompt)')
 
     -- Lualine config
-    local custom_gruvbox = require'lualine.themes.gruvbox-material'
-    require('lualine').setup{
-        options = { theme = custom_gruvbox },
-    }
+    -- local custom_gruvbox = require'lualine.themes.gruvbox-material'
+    -- require('lualine').setup{
+    --     options = { theme = custom_gruvbox },
+    -- }
+    require("lualine").setup({
+        options = {
+            --- @usage 'rose-pine' | 'rose-pine-alt'
+            theme = "rose-pine"
+        }
+    })
 
     -- Toggle term config
     require("toggleterm").setup{

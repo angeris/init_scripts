@@ -18,27 +18,19 @@ syntax on
 set mouse=a
 
 call plug#begin()
-    Plug 'preservim/nerdtree'
     Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'hrsh7th/cmp-nvim-lsp'
-    Plug 'hrsh7th/nvim-cmp'
-    Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-    Plug 'hrsh7th/cmp-omni'
     Plug 'JuliaEditorSupport/julia-vim'
+    Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+    Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
     Plug 'lervag/vimtex'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-    Plug 'godlygeek/tabular'
     Plug 'preservim/vim-markdown'
     Plug 'ziglang/zig.vim'
     Plug 'nvim-lualine/lualine.nvim'
-    Plug 'sainnhe/gruvbox-material'
+    Plug 'rose-pine/neovim'
     Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 call plug#end()
-
-" -- Plugin settings
-set background=dark
 
 " Vimtex
 let g:vimtex_view_method='skim'
@@ -60,15 +52,15 @@ nnoremap <C-left> :tabprevious<CR>
 nnoremap <C-right> :tabnext<CR>
 
 " -- Plugin keyboard shortcuts
-function NerdToggle()
-    if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
-        :NERDTreeToggle
-    else
-        :NERDTreeFind
-    endif
-endfunction
-
-nnoremap <C-n> :call NerdToggle()<CR>
+" function NerdToggle()
+"     if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
+"         :NERDTreeToggle
+"     else
+"         :NERDTreeFind
+"     endif
+" endfunction
+" 
+" nnoremap <C-n> :call NerdToggle()<CR>
 nnoremap <C-f> :Files<CR>
 nnoremap <C-b> :Buffers<CR>
 nnoremap <C-p> :Rg<CR>
